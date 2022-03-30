@@ -36,7 +36,7 @@ class BetSlipPage():
             match.date = f"{matchDate} {matchTime.rstrip(' ')}"
             match.name = matchNames[index].get_attribute("textContent")
 
-            matchDetailClasses.append(match)  # Append all the match details into a list.
+            matchDetailClasses.append(match)  # Append all the match detail classes into a list.
 
         return matchDetailClasses  # Return the list that contains match detail classes.
 
