@@ -76,7 +76,7 @@ class BetSlipPage():
             text = self.helpers.getElementText(element)
             slipTexts.append(text)
 
-        slipTexts = slipTexts[::-1]  # Reverse the slip items to match the order.
+        slipTexts = slipTexts[::-1]  # Reverse the slip items to match the class order.
 
         return slipTexts
 
