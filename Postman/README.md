@@ -8,6 +8,7 @@ Projede kullanılan endpointlere bu linkten ulaşabilirsiniz : https://bootcampa
 
 Projenin ayağa kalması için Postman ve aşağıdaki görselde paylaşılan Environmente ihtiyaç duyulmaktadır. İndirdiğiniz Collection'u Postman'ın içerisine import ettikten sonra belirtilen Environment'ı içe aktararak aktif olarak seçmeniz gerekmektedir.
 
-![image](https://user-images.githubusercontent.com/13181041/149616456-e64d9f8d-4834-40dd-be23-5900c37a10d6.png)
+![image](https://user-images.githubusercontent.com/13181041/160854971-41181701-f83a-4b65-aedf-a5c83e8a2085.png)
+
 
 
