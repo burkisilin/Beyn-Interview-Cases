@@ -8,7 +8,7 @@
 
 
 
-Projede kullanılan endpointlere bu linkten ulaşabilirsiniz : https://bootcampapi.techcs.io/api/fe/v1/#/
+Projede kullanılan endpointlere bu linkten ulaşabilirsiniz : https://restful-booker.herokuapp.com/apidoc/index.html
 
 # PROJE GEREKSİNİMLERİ
 
