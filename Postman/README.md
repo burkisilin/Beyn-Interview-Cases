@@ -1,4 +1,9 @@
-# Test Automation Bootcamp API Entegrasyon Testleri
+# BEYN TEKNOLOJI INTERVIEW - API  Testleri
+
+# HTML Raporu Görüntüle
+
+[Raporu görüntülemek için buraya tıklamanız yeterli.](https://rawcdn.githack.com/burkisilin/Beyn-Interview-Cases/aa844353ec6dacc8ee4292383ad1f090247cbbba/Postman/newman-report/Beyn%20Interview-2022-03-30-14-25-10-119-0.html)
+
 ![image](https://user-images.githubusercontent.com/13181041/160855652-81f1782d-480b-43d6-96b5-1ea9ca5ff768.png)
 
 
@@ -40,3 +45,4 @@ HTML raporu oluşturmak için gerekli kod:
 ```
 newman run "Beyn Interview.postman_collection.json" -e "Beyn Interview Collection Environment.postman_environment.json" -d requestBody.json -r htmlextra
 ```
+
