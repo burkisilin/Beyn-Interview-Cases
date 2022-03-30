@@ -1,0 +1,387 @@
+{
+	"info": {
+		"_postman_id": "494ea91b-30e9-486d-a03b-54bb94d590f5",
+		"name": "Beyn Interview",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Get Bookings",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);\r",
+							"\r",
+							"bookingCount = jsonData.length;\r",
+							"pm.environment.set(\"bookingCount\",bookingCount) // Set the Booking Count Environment Variable for later comprasion. \r",
+							"\r",
+							"\r",
+							"pm.test(\"Response Body is Valid\", () =>{ // Entegration test of Response Body\r",
+							"for (let i = 0; i < bookingCount; i++) {\r",
+							"\r",
+							"    pm.expect(typeof(jsonData[i]) == \"object\").to.be.true; // Expect each item returning to be an Object.\r",
+							"\r",
+							"    Object.entries(jsonData[i]).forEach(([key, value]) => {\r",
+							"        pm.expect(typeof(key) == \"string\").to.be.true; // Expect each key to be String Type.\r",
+							"        pm.expect(typeof(value) == \"number\").to.be.true; // Expect each value to be Number type .\r",
+							"    });\r",
+							"}\r",
+							"});\r",
+							"\r",
+							"\r",
+							"pm.test(\"Number of bookings: \"+ bookingCount)\r",
+							"\r",
+							"\r",
+							"pm.test('Status code is 200', () =>{\r",
+							"    pm.expect(pm.response.code).equal(200,'Status received is ' + pm.response.code); // user successfully signed-up -> Response code must be 200 due to Swagger API Documentation. \r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseURL}}/booking",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"booking"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create A New Booking",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"pm.environment.set(\"requestJson\", JSON.stringify(pm.iterationData.toObject())) // Json File Must Be Specified \r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							"// Authorization for the Reservation Update.\r",
+							"const options = {\r",
+							"    url: \"https://restful-booker.herokuapp.com/auth\",\r",
+							"    method: 'POST',\r",
+							"    header: { 'content-type': 'application/json' },\r",
+							"    body: {\r",
+							"        mode: 'raw',\r",
+							"        raw: JSON.stringify({ \"username\": \"admin\", \"password\": \"password123\"})\r",
+							"\r",
+							"    }\r",
+							"};\r",
+							"\r",
+							"pm.sendRequest(options, function (err, res) {\r",
+							"    var jsonData = res.json();\r",
+							"    if (err) {\r",
+							"        console.log(err);\r",
+							"    }\r",
+							"    else {\r",
+							"        console.log(\"Token ->\",jsonData.token)\r",
+							"        pm.environment.set(\"Token\", jsonData.token);\r",
+							"    }\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);\r",
+							"let moment = require ('moment');\r",
+							"\r",
+							"\r",
+							"pm.test(\"Response Body is Valid\", () =>{ // Entegration test of Response Body Referencing the API Documentation.\r",
+							"\r",
+							"pm.expect(typeof(jsonData.bookingid) == \"number\").to.be.true;\r",
+							"pm.expect(typeof(jsonData.booking.firstname) == \"string\").to.be.true; \r",
+							"pm.expect(typeof(jsonData.booking.lastname) == \"string\").to.be.true;\r",
+							"pm.expect(typeof(jsonData.booking.totalprice) == \"number\").to.be.true;\r",
+							"pm.expect(typeof(jsonData.booking.depositpaid) == \"boolean\").to.be.true;\r",
+							"pm.expect(typeof(jsonData.booking.bookingdates) == \"object\").to.be.true; \r",
+							"pm.expect(moment(jsonData.booking.bookingdates.checkin, 'YYYY-MM-DD', true).isValid()).is.true;\r",
+							"pm.expect(moment(jsonData.booking.bookingdates.checkout, 'YYYY-MM-DD', true).isValid()).is.true;\r",
+							"pm.expect(typeof(jsonData.booking.additionalneeds) == \"string\").to.be.true;\r",
+							"});\r",
+							"\r",
+							"\r",
+							"\r",
+							"pm.test(\"Booking Succesfully Created, Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"    pm.environment.set(\"createdBookingID\",jsonData.bookingid)\r",
+							"\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{{requestJson}}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseURL}}/booking",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"booking"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Check Booking",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);\r",
+							"\r",
+							"let moment = require ('moment');\r",
+							"\r",
+							"\r",
+							"pm.test(\"Response Body is Valid\", () =>{ // Entegration test of Response Body Referencing the API Documentation.\r",
+							"\r",
+							"pm.expect(typeof(jsonData.firstname) == \"string\").to.be.true; \r",
+							"pm.expect(typeof(jsonData.lastname) == \"string\").to.be.true;\r",
+							"pm.expect(typeof(jsonData.totalprice) == \"number\").to.be.true; \r",
+							"pm.expect(typeof(jsonData.depositpaid) == \"boolean\").to.be.true;\r",
+							"pm.expect(typeof(jsonData.bookingdates) == \"object\").to.be.true; \r",
+							"pm.expect(moment(jsonData.bookingdates.checkin, 'YYYY-MM-DD', true).isValid()).is.true;\r",
+							"pm.expect(moment(jsonData.bookingdates.checkout, 'YYYY-MM-DD', true).isValid()).is.true;\r",
+							"pm.expect(typeof(jsonData.additionalneeds) == \"string\").to.be.true;\r",
+							"});\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							"pm.test(\"Response Body Equals To Request Body\", () =>{ \r",
+							"\r",
+							"requestJson = pm.environment.get(\"requestJson\")\r",
+							"responseJson = JSON.stringify(jsonData)\r",
+							"\r",
+							"pm.expect(requestJson == responseJson).to.be.true;\r",
+							"});\r",
+							"\r",
+							"pm.test('Status code is 200', () =>{\r",
+							"    pm.expect(pm.response.code).equal(200,'Status received is ' + pm.response.code); // user successfully signed-up -> Response code must be 200 due to Swagger API Documentation. \r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseURL}}/booking/{{createdBookingID}}",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"booking",
+						"{{createdBookingID}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Validate Reservation",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);\r",
+							"\r",
+							"newbookingCount = jsonData.length;\r",
+							"oldbookingCount = pm.environment.get(\"bookingCount\")\r",
+							"\r",
+							"pm.test(\"Response Body is Valid\", () =>{ // Entegration test of Response Body\r",
+							"for (let i = 0; i < newbookingCount; i++) {\r",
+							"\r",
+							"    pm.expect(typeof(jsonData[i]) == \"object\").to.be.true; // Expect each item returning to be an Object.\r",
+							"\r",
+							"    Object.entries(jsonData[i]).forEach(([key, value]) => {\r",
+							"        pm.expect(typeof(key) == \"string\").to.be.true; // Expect each key to be String Type.\r",
+							"        pm.expect(typeof(value) == \"number\").to.be.true; // Expect each value to be Number type .\r",
+							"    });\r",
+							"}\r",
+							"});\r",
+							"\r",
+							"\r",
+							"pm.test('Validation Succesfull --> Old Booking Count: '+oldbookingCount+'  ---  '+'New Booking Count: '+newbookingCount, () =>{\r",
+							"    pm.expect(newbookingCount).greaterThan(oldbookingCount); // user successfully signed-up -> Response code must be 200 due to Swagger API Documentation. \r",
+							"});\r",
+							"\r",
+							"\r",
+							"pm.test('Status code is 200', () =>{\r",
+							"    pm.expect(pm.response.code).equal(200,'Status received is ' + pm.response.code); // user successfully signed-up -> Response code must be 200 due to Swagger API Documentation. \r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseURL}}/booking",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"booking"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Booking",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"pm.environment.set(\"date_checkin\", \"2022-02-02\");\r",
+							"pm.environment.set(\"date_checkout\", \"2025-05-02\");"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);\r",
+							"\r",
+							"let moment = require ('moment');\r",
+							"\r",
+							"\r",
+							"pm.test(\"Response Body is Valid\", () =>{ // Entegration test of Response Body Referencing the API Documentation.\r",
+							"\r",
+							"pm.expect(typeof(jsonData.firstname) == \"string\").to.be.true; \r",
+							"pm.expect(typeof(jsonData.lastname) == \"string\").to.be.true;\r",
+							"pm.expect(typeof(jsonData.totalprice) == \"number\").to.be.true; \r",
+							"pm.expect(typeof(jsonData.depositpaid) == \"boolean\").to.be.true;\r",
+							"pm.expect(typeof(jsonData.bookingdates) == \"object\").to.be.true; \r",
+							"pm.expect(moment(jsonData.bookingdates.checkin, 'YYYY-MM-DD', true).isValid()).is.true;\r",
+							"pm.expect(moment(jsonData.bookingdates.checkout, 'YYYY-MM-DD', true).isValid()).is.true;\r",
+							"pm.expect(typeof(jsonData.additionalneeds) == \"string\").to.be.true;\r",
+							"});\r",
+							"\r",
+							"pm.test('Booking Updated Successfully', () =>{\r",
+							"    pm.expect(jsonData.bookingdates.checkin == pm.environment.get(\"date_checkin\")).to.be.true;\r",
+							"    pm.expect(jsonData.bookingdates.checkout == pm.environment.get(\"date_checkout\")).to.be.true;   \r",
+							"});\r",
+							"\r",
+							"\r",
+							"pm.test('Status code is 200', () =>{\r",
+							"    pm.expect(pm.response.code).equal(200,'Status received is ' + pm.response.code); // user successfully signed-up -> Response code must be 200 due to Swagger API Documentation. \r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "password123",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "admin",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Cookie",
+						"value": "token={{token}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"bookingdates\" : {\r\n        \"checkin\" : \"{{date_checkin}}\",\r\n        \"checkout\" : \"{{date_checkout}}\"\r\n    }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseURL}}/booking/{{createdBookingID}}",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"booking",
+						"{{createdBookingID}}"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}

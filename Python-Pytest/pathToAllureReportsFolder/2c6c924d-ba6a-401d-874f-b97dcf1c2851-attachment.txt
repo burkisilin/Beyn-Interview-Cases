@@ -1,0 +1,9 @@
+Initializing Chrome driver
+-----------------------------------------
+Test is started
+Screenshot saved as: ./screenshot/30-03-2022/16.18&PageNavigation.png
+Screenshot saved as: ./screenshot/30-03-2022/16.18&EventSearch.png
+Screenshot saved as: ./screenshot/30-03-2022/16.18&EventChosen.png
+Screenshot saved as: ./screenshot/30-03-2022/16.18&BetsPlaced.png
+-----------------------------------------
+Test is finished
