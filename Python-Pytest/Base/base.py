@@ -12,7 +12,7 @@ class Base:
         print("Initializing Chrome driver")
         chrome_options = Options()
         chrome_options.add_argument("--window-size=1920,1080")
-        self.driver = webdriver.Chrome(chrome_options=chrome_options, executable_path="C:/Users/bbayr/Desktop/Python/AUTOSBC PRIVATE/chromedriver_autoinstaller/99/chromedriver.exe")  # Specify your chrome path here if you don't have added it to global variables.
+        self.driver = webdriver.Chrome(chrome_options=chrome_options, executable_path="C:/Users/chromedriver.exe")  # Specify your chrome path here if you don't have added it to global variables.
         print("-----------------------------------------")
         print("Test is started")
         self.driver.implicitly_wait(4)
