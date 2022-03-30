@@ -6,6 +6,10 @@ Projenin ayağa kaldırılması için öncelikle Python ve gerekli paketlerin ku
 pip install -r /path/to/requirements.txt
 ```
 
+./Base/base.py dosyasında bulunan driver executable path'i eğer driveriniz sistem ortam değişkenlerinde değil ise set etmeniz gerekmektedir.
+```python
+self.driver = webdriver.Chrome(chrome_options=chrome_options,executable_path= "./PathTo/chromedriver.exe")
+```
 
 
 Projenin bulunduğu dizinde CMD üzerinden aşağıda bulunan kodu çalıştırarak testleri koşmaya başlayabilirsiniz.\
