@@ -12,7 +12,7 @@ class HomePage():
         self.matches_xpath = Locators.matches_xpath
 
 
-    def navigateToMenuPage(self, menuPageName):
+    def navigateToMenuPage(self, menuPageName):  # Navigate to the given Menu Page
         menuElems = self.driver.find_elements_by_xpath(self.main_menu_elements_xpath)
 
         for menuElem in menuElems:
@@ -20,10 +20,10 @@ class HomePage():
                 menuElem.click()
                 break
 
-    def searchEvent(self, eventName):
+    def searchEvent(self, eventName):  # Search an event
         self.driver.find_element_by_xpath(self.search_box_xpath).send_keys(eventName)
 
-    def selectEvent(self, eventOrder):
+    def selectEvent(self, eventOrder):  # Select the choosen event from search results (To choose the first event, function must called with eventOrder as 1.) 
 
         search_results = self.driver.find_elements_by_xpath(f"{self.search_result_container_xpath}{self.matches_xpath}")
         search_results[eventOrder-1].click()
