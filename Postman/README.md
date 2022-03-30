@@ -1,5 +1,6 @@
 # Test Automation Bootcamp API Entegrasyon Testleri
-![image](https://user-images.githubusercontent.com/13181041/149620176-93065b81-45c3-45b2-9dec-d5abb8ee1e59.png)
+![image](https://user-images.githubusercontent.com/13181041/160855652-81f1782d-480b-43d6-96b5-1ea9ca5ff768.png)
+
 
 
 Projede kullanılan endpointlere bu linkten ulaşabilirsiniz : https://bootcampapi.techcs.io/api/fe/v1/#/
