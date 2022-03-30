@@ -5,16 +5,12 @@ class Locators:
     # # Home Page Locators # #
 
     mainMenu_xpath = f"//ul[@class='{mainMenuClassName}']/li[@class='{mainMenuElementClassName}']"
-
     sportsPageMenuButton_xpath = "//a[text()='Sport']"
-
     searchBox_xpath = "//input[@placeholder='Find Events, Tournaments or Categories']"
-
     searchResultContainer_xpath = "//tab[@class='active tab-pane ng-star-inserted']"
-
     matches_xpath = "//div[@class='result-row card ng-star-inserted']"
 
-
+    
     # # BetSlip Page Locators # #
 
     matchNamesXpath = "//td[contains(@class,'event-name')]"
