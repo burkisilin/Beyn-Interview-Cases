@@ -17,3 +17,26 @@ Environmentin ayarlanmasının ardından koleksiyonu koşmak için requestBody.j
 
 
 ![image](https://user-images.githubusercontent.com/13181041/160855313-6aa56bc9-f9ee-4413-9052-c6a87b8ead97.png)
+
+# Newman Kullanarak Koşma
+
+Testi Newman kullanarak koşmak için aşağıdaki kod bloğunda bulunan kodu koleksiyon dosyalarının bulunduğu klasörde terminalden çalıştırmanız yeterli olacaktır.
+```
+newman run "Beyn Interview.postman_collection.json" -e "Beyn Interview Collection Environment.postman_environment.json" -d requestBody.json
+```
+
+# Newman HTML Raporlama
+
+Bu işlemi gerçekleştirmek için Node Package Manager'e ihtiyaç duymaktasınız!
+
+```
+npm install -g newman-reporter-htmlextra
+```
+
+Terminal üzerinden yukarıdaki kod bloğunu çalıştırarak gerekli pakedin kurulumunu gerçekleştirebilirsiniz.
+
+HTML raporu oluşturmak için gerekli kod:
+
+```
+newman run "Beyn Interview.postman_collection.json" -e "Beyn Interview Collection Environment.postman_environment.json" -d requestBody.json -r htmlextra
+```
