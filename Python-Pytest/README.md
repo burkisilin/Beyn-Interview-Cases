@@ -36,8 +36,10 @@ allure serve pathToAllureReportsFolder
 ```
 
 # HTML RAPORLAMA
-Test koşum raporlarımızı görüntülememizin bir diğer yolu PyTest HTML raporlama. Aşağıdaki komutu, komut istemcisi üzerinden çalıştırarak kolayca testlerimize ait bir HTML rapor sayfası oluşturabiliriz.
-
+Test koşum raporlarımızı görüntülememizin bir diğer yolu PyTest HTML raporlama. Gerekli pakedi kurduktan sonra gerekli komutu, komut istemcisi üzerinden çalıştırarak kolayca testlerimize ait bir HTML rapor sayfası oluşturabiliriz.
+```
+pip install pytest-html
+```
 ```
 py.test --html=reportFileName.html --capture=tee-sys
 ```
